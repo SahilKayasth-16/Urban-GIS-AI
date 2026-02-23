@@ -1,0 +1,23 @@
+id,area_name,water_supply_score,electricity_score,sewage_score,road_connectivity_score,internet_score
+1,Thaltej,10,8,8,8,10
+2,Bopal,7,7,7,7,6
+3,Navrangpura,8,10,8,8,10
+4,Chandkheda,6,8,6,6,6
+5,Gota,6,7,5,8,8
+6,Nikol,5,5,5,7,6
+7,Prahladnagar,8,8,7,9,9
+8,SG Highway,9,9,9,8,9
+9,Paldi,7,6,6,8,6
+10,Ranip,6,6,6,6,5
+11,Meghaninagar,4,5,5,7,6
+12,Nirnaynagar,4,7,6,5,5
+13,Sabarmati,8,8,6,6,8
+14,Maninagar,7,8,5,8,8
+15,Kankaria,6,7,6,5,6
+16,Chandola,5,6,6,5,7
+17,Bapunagar,5,7,4,6,5
+18,Naroda,6,6,6,5,7
+19,Satellite,9,9,8,9,8
+20,Vastrapur,8,8,7,10,8
+21,Ashram Road,9,9,8,8,10
+22,Ellis Bridge,9,9,9,9,10

@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import "../styles/ChatBotDrawer.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ChatBotDrawer = ({ isOpen, onClose, location}) => {
+    const navigate = useNavigate();
+
     const [messages, setMessages] = useState([
     { role: "bot", text: "Hello! I'm your Urban GIS AI assistant." }
   ]);
   const [input, setInput] = useState("");
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
     if (!location) {
       setMessages((prev) => [
         ...prev,
-        { role: "bot", text: "Please select a location on the map first." }
+        { role: "bot", text: "Please Select location on map first." }
       ]);
       return;
     }
@@ -19,13 +25,42 @@ const ChatBotDrawer = ({ isOpen, onClose, location}) => {
     setMessages((prev) => [
       ...prev,
       { role: "user", text: input },
-      {
-        role: "bot",
-        text: `Analyzing "${input}" for ${location.name}...`
-      }
+      { role: "bot", text: "Analyzing location... please wait." }
     ]);
 
-    setInput("");
+    try {
+      const payload = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        area_name: location.name,
+        category_id: 1
+      };
+
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        "http://localhost:8000/run-analysis",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const resultId = response.data.result_id;
+
+      navigate(`/result/${resultId}`)
+    } catch(error) {
+      console.error("Analysis failed.", error);
+
+      setMessages((prev) => [
+        ...prev,
+        { role: "bot", text: "Something went wrong..." }
+      ]);
+    }
+
+    setInput();
   };
     return(
         <>

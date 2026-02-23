@@ -1,148 +1,87 @@
-import React from "react";
-import {Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import "../styles/ResultPage.css";
-import VideoBackground from "../components/VideoBackground";
 
-const ResultPage = () => {
-    const navigate = useNavigate();
+const AnalysisResult = () => {
+  const { resultId } = useParams();
+  const navigate = useNavigate();
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const resData = {
-        query: "Gyms nearby ",
-        location: {
-            name: "Bardoli, Surat",
-            latitude: "21.1255",
-            longitude: "73.1122"
-        },
-        generatedAt: "16 January 2026 | 05:05 PM",
+  useEffect(() => {
+    fetchResult();
+  }, []);
 
-        summary: [
-            { title: "No. of Gyms in Bardoli", value: "13" },
-            { title: "Average fees", value: "5k - 8k" },
-            { title: "No. of clients per gym", value: "120 / gym avg."}
-        ],
+  const fetchResult = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/analysis/${resultId}`
+      );
+      setResult(res.data);
+    } catch (error) {
+      console.error("Error fetching result:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        recommendations: {
-            high: [
-                "Maintain parking & bathing facility",
-                "Select near supplement stores",
-            ],
-            medium: [
-                "Minimum 3 rooms of 10 x 10 feet.",
-                "Average fees 3750 /-."
-            ],
-            low: [
-                "Consist of maximum 5 personal trainers.",
-                "Minimum fees 2000 /-."
-            ],
-        },
-    };
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:8000/analysis/${resultId}`
+      );
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
 
-    const handleSaveReport = () => {
-        const reports = JSON.parse(localStorage.getItem("reports")) || [];
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
 
-        reports.push(resData);
-        localStorage.setItem("reports", JSON.stringify(reports));
+  const handleDownloadPDF = () => {
+    window.print(); // Simple version
+  };
 
-        navigate("/reports")
-    };
+  if (loading) return <div className="loading">Loading...</div>;
+  if (!result) return <div className="loading">Result not found</div>;
 
-    const resultData = JSON.parse(
-        localStorage.getItem("latestResult")
-    );
+  return (
+    <div className="result-container">
+      <div className="result-card">
 
+        <h2>AI Analysis Report</h2>
 
-    return (
-        <>
-        <VideoBackground />
-        <div className="result-page">
-
-      
-      <header className="result-header">
-        <h2>Analysis Result</h2>
-        <p className="meta">
-          <strong>Query:</strong> {resData.query}
-        </p>
-        <p className="meta">
-          <strong>Location:</strong> {resData.location.name} (
-          {resData.location.latitude},{" "}
-          {resData.location.longitude})
-        </p>
-        <p className="meta">{resData.generatedAt}</p>
-      </header>
-
-      
-      <section className="summary-section">
-        {resData.summary.map((item, index) => (
-          <div className="summary-card" key={index}>
-            <h4>{item.title}</h4>
-            <p>{item.value}</p>
-          </div>
-        ))}
-      </section>
-
-     
-      <section className="charts-section">
-        <h3>Statistical Overview</h3>
-        <div className="chart-placeholder">
-          <p>Charts will be displayed here</p>
-        </div>
-      </section>
-
-      
-      <section className="map-section">
-        <h3>Spatial Analysis</h3>
-        <div className="map-placeholder">
-          <p>GIS Map Visualization Here</p>
-        </div>
-      </section>
-
-      
-      <section className="recommendations-section">
-        <h3>AI Recommendations</h3>
-
-        <div className="recommendation-block high">
-          <h4>High Priority</h4>
-          <ul>
-            {resData.recommendations.high.map((rec, i) => (
-              <li key={i}>{rec}</li>
-            ))}
-          </ul>
+        <div className="location-info">
+          <p><strong>Area:</strong> {result.area_name}</p>
+          <p><strong>Latitude:</strong> {Number(result.latitude).toFixed(4)}°</p>
+          <p><strong>Longitude:</strong> {Number(result.longitude).toFixed(4)}°</p>
+          <p><strong>Date:</strong> {new Date(result.created_at).toLocaleString()}</p>
         </div>
 
-        <div className="recommendation-block medium">
-          <h4>Medium Priority</h4>
-          <ul>
-            {resData.recommendations.medium.map((rec, i) => (
-              <li key={i}>{rec}</li>
-            ))}
-          </ul>
+        <div className="analysis-box">
+          {result.analysis_text}
         </div>
 
-        <div className="recommendation-block low">
-          <h4>Low Priority</h4>
-          <ul>
-            {resData.recommendations.low.map((rec, i) => (
-              <li key={i}>{rec}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-    
-      <footer className="result-actions">
-        <button onClick={handleSaveReport}>
-          Save as Report
-        </button>
-
-        <Link to="/dashboard">
-          <button className="secondary">
-            <i className="fa-solid fa-arrow-left"></i> Back to Dashboard
+        <div className="button-group">
+          <button className="btn back" onClick={handleBack}>
+            Back to Dashboard
           </button>
-        </Link>
-      </footer>
-    </div>    
-        </>
-    );
-}
 
-export default ResultPage;
+          <button className="btn pdf" onClick={handleDownloadPDF}>
+            Save as PDF
+          </button>
+
+          <button className="btn delete" onClick={handleDelete}>
+            Delete
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default AnalysisResult;
