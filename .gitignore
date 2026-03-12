@@ -1,26 +1,72 @@
 # ======================
+
 # Frontend (Vite + React)
-# ======================
-frontend/node_modules
-frontend/dist
-frontend/.vite
 
 # ======================
-# Backend
+
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env
+
 # ======================
-backend/node_modules
+
+# Backend (Python / FastAPI)
+
+# ======================
+
+backend/**pycache**/
+backend/**/*.pyc
 backend/.env
+backend/venv/
+backend/.venv/
 
 # ======================
-# Logs
+
+# Python Cache (Anywhere)
+
 # ======================
+
+**pycache**/
+*.pyc
+*.pyo
+*.pyd
+
+# ======================
+
+# Logs
+
+# ======================
+
 *.log
 npm-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # ======================
-# Editor / OS
+
+# Environment Files
+
 # ======================
+
+.env
+.env.local
+.env.*.local
+
+# ======================
+
+# Editor / IDE
+
+# ======================
+
 .vscode/
 .idea/
+
+# ======================
+
+# OS Files
+
+# ======================
+
 .DS_Store
+Thumbs.db
