@@ -12,6 +12,171 @@ body {
   color: #ffffff;
 }
 
+/* =========================
+   PDF GENERATION STYLES
+========================= */
+
+/* Hidden by default on screen */
+.pdf-only-header {
+  display: none;
+}
+
+.screen-only {
+  display: block;
+}
+
+/* Base page-break utility */
+.page-break {
+  display: block;
+  height: 0;
+  margin: 0;
+}
+
+/* Styles applied ONLY when PDF is being generated */
+body.generating-pdf {
+  background: #ffffff !important;
+  color: #111111 !important;
+}
+
+body.generating-pdf .result-container {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #ffffff !important;
+}
+
+body.generating-pdf .result-card {
+  background: #ffffff !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  color: #111111 !important;
+}
+
+body.generating-pdf .pdf-only-header {
+  display: block;
+  margin-bottom: 30px;
+  padding: 20px 0;
+  border-bottom: 2px solid #0072ff;
+}
+
+body.generating-pdf .pdf-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+body.generating-pdf .pdf-header-top h1 {
+  color: #0072ff;
+  font-size: 32px;
+  margin: 0;
+}
+
+body.generating-pdf .pdf-header-top span {
+  font-size: 16px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+body.generating-pdf .pdf-header-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #444;
+}
+
+body.generating-pdf .screen-only,
+body.generating-pdf .no-print,
+body.generating-pdf .video-background-container {
+  display: none !important;
+}
+
+body.generating-pdf .analysis-box {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+  color: #111111 !important;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+body.generating-pdf .metrics-container,
+body.generating-pdf .recommendations-container {
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  max-width: 100% !important;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+body.generating-pdf .metrics-container h3,
+body.generating-pdf .recommendations-container h3 {
+  color: #0072ff !important;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+body.generating-pdf .metrics-grid {
+  justify-content: flex-start;
+}
+
+body.generating-pdf .metric-item {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #111111 !important;
+}
+
+body.generating-pdf .metric-item strong {
+  color: #0072ff !important;
+}
+
+body.generating-pdf .recommendations-container p {
+  color: #111111 !important;
+  max-width: 100%;
+  text-align: left;
+}
+
+body.generating-pdf .recommendations-container .bullet {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #111111 !important;
+  width: 100%;
+  margin: 8px 0;
+}
+
+body.generating-pdf .chart-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+  color: #111111 !important;
+  page-break-inside: avoid;
+}
+
+body.generating-pdf .chart-card h3 {
+  color: #0072ff !important;
+}
+
+body.generating-pdf .page-break {
+  page-break-after: always;
+  clear: both;
+}
+
+/* Recharts text visibility in PDF */
+body.generating-pdf .recharts-cartesian-axis-tick-value,
+body.generating-pdf .recharts-legend-item-text,
+body.generating-pdf .recharts-polar-angle-axis-tick-value,
+body.generating-pdf .recharts-default-tooltip {
+  fill: #111111 !important;
+  color: #111111 !important;
+}
+
 .result-page {
   position: relative;
   padding: 40px;
@@ -147,6 +312,201 @@ body {
   background: #222;
 }
 
+.analysis-box {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 25px;
+  border-radius: 16px;
+  line-height: 1.7;
+  font-size: 16px;
+  white-space: normal;
+  text-align: left;
+  margin-top: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.graph-container-box {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+/* DASHBOARD GRID */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 198, 255, 0.4);
+}
+
+.chart-card h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #00c6ff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Paragraph spacing */
+
+.analysis-box p {
+  margin-bottom: 12px;
+}
+
+/* Numbered points */
+
+.analysis-box .numbered {
+  font-weight: 600;
+  color: #00c6ff;
+}
+
+/* Bullet points */
+
+.analysis-box .bullet {
+  padding-left: 12px;
+  position: relative;
+}
+
+.analysis-box .bullet::before {
+  content: "•";
+  color: #00ffcc;
+  position: absolute;
+  left: 0;
+}
+
+/* AI RECOMMENDATIONS SPECIAL STYLING */
+.recommendations-container {
+  text-align: center;
+  border: 1px solid rgba(0, 198, 255, 0.3) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 198, 255, 0.05)) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 198, 255, 0.1) !important;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.4s ease;
+}
+
+.recommendations-container:hover {
+  border-color: rgba(0, 198, 255, 0.6) !important;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 198, 255, 0.2) !important;
+  transform: translateY(-2px);
+}
+
+.recommendations-container h3 {
+  justify-content: center;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  color: #00ffcc;
+}
+
+.recommendations-container p {
+  max-width: 85%;
+  margin: 0 auto 15px auto;
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.recommendations-container .bullet {
+  display: inline-block;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px 20px 12px 35px;
+  border-radius: 12px;
+  margin: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 15px;
+  min-width: 280px;
+}
+
+/* AREA METRICS SPECIAL STYLING */
+.metrics-container {
+  text-align: center;
+  border: 1px solid rgba(0, 255, 204, 0.2) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 255, 204, 0.03)) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 204, 0.05) !important;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.4s ease;
+}
+
+.metrics-container:hover {
+  border-color: rgba(0, 255, 204, 0.5) !important;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 255, 204, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+.metrics-container h3 {
+  justify-content: center;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  color: #00ffcc;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.metrics-grid {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.metric-item {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 16px;
+  min-width: 220px;
+  transition: all 0.3s ease;
+}
+
+.metric-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 255, 204, 0.3);
+  transform: scale(1.02);
+}
+
+.metric-item strong {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #00c6ff;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.recommendations-container .numbered {
+  display: block;
+  font-size: 18px;
+  margin: 20px auto 10px auto;
+  color: #00c6ff;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
 /* ========================= */
 /* 📱 MOBILE RESPONSIVE */
 /* ========================= */
@@ -167,6 +527,30 @@ body {
 
   .summary-card p {
     font-size: 18px;
+  }
+
+  .analysis-box {
+    font-size: 14px;
+    padding: 18px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+}
+  .no-print {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
   }
 }
 
@@ -201,5 +585,10 @@ body {
 
   .score-grid {
     flex-direction: row;
+  }
+
+  .analysis-box {
+    font-size: 13px;
+    padding: 15px;
   }
 }

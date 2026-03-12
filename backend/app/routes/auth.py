@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 from app.core.database import get_db
-from app.core.security import hash_password, verify_password, create_access_token, get_current_user,ADMIN_USERS
+from app.core.security import hash_password, verify_password, create_access_token, get_current_user, ADMIN_USERS, VirtualAdmin, update_admin_credentials
 from app.models.user import User
+from typing import Any
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -56,8 +57,10 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         if password != ADMIN_USERS[username]:
             raise HTTPException(status_code=401, detail="Invalid admin password")
         
+        # Admin is treated as a "virtual" user with ID 0 to avoid DB dependency
         token = create_access_token({
             "user_id": 0,
+            "username": username,
             "role": "admin"
         })
         
@@ -112,3 +115,66 @@ def change_password(data: dict, db: Session = Depends(get_db)):
     db.commit()
 
     return { "message": "Password updated successfully." }
+
+
+#=============== UPDATE PROFILE API ===============#
+class UpdateProfileRequest(BaseModel):
+    username: str | None = None
+    password: str | None = None
+
+@router.put("/update-profile")
+def update_profile(
+    data: UpdateProfileRequest, 
+    db: Session = Depends(get_db), 
+    current_user: Any = Depends(get_current_user)
+):
+    if isinstance(current_user, VirtualAdmin):
+        # Admin update logic: update security.py directly
+        new_username = data.username if data.username else current_user.username
+        
+        success = update_admin_credentials(
+            old_username=current_user.username,
+            new_username=new_username,
+            new_password=data.password
+        )
+        
+        if not success:
+            raise HTTPException(status_code=400, detail="Failed to update admin credentials.")
+        
+        # Note: Return a new token since username might have changed
+        token = create_access_token({
+            "user_id": 0,
+            "username": new_username,
+            "role": "admin"
+        })
+        
+        return {
+            "message": "Admin profile updated successfully in security.py.",
+            "token": token,
+            "user": {
+                "username": new_username,
+                "role": "admin"
+            }
+        }
+
+    # User update logic (database)
+    if data.username:
+        # Check if username is already taken by another user
+        existing_user = db.query(User).filter(User.username == data.username, User.id != current_user.id).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Username already exists.")
+        current_user.username = data.username
+    
+    if data.password:
+        current_user.password_hash = hash_password(data.password)
+    
+    db.commit()
+    db.refresh(current_user)
+    
+    return {
+        "message": "Profile updated successfully.", 
+        "user": {
+            "username": current_user.username,
+            "role": current_user.role
+        }
+    }

@@ -23,7 +23,8 @@ const LoginPage = () => {
         }
 
         try {
-            const res =  await fetch("http://localhost:8000/auth/login", {
+            const apiBase = "http://127.0.0.1:8000"; // Consistently use IP to match common browser behavior
+            const res =  await fetch(`${apiBase}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

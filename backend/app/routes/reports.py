@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from sqlalchemy import text, bindparam
-from sqlalchemy.dialects.postgresql import JSONB
 from pydantic import BaseModel
 from app.core.database import get_db
-from app.services.feasibility_services import calculate_feasibility
+from app.models.analysis_result import AnalysisResult
+from app.services.analysis_service import run_analysis_services
 from datetime import datetime
 
 import json
@@ -20,60 +19,60 @@ class ReportRequest(BaseModel):
 
 #=============== GENERATE REPORT API ===============#
 @router.post("/generate-report")
-
 def create_report(data: ReportRequest, db: Session = Depends(get_db)):
-
-    #running feasibilty analysis
-    analysis = calculate_feasibility(
-        db,
-        data.latitude,
-        data.longitude,
-        data.category_id
+    result = run_analysis_services(
+        db=db,
+        user_id=data.user_id,
+        latitude=data.latitude,
+        longitude=data.longitude,
+        category_id=data.category_id,
+        area_name=data.area_name
     )
 
-    #logic for AI recommendations
-    if analysis["total_score"] >= 80:
-        recommendations = "Perfect area with excellent business opportunity."
-    elif analysis["total_score"] >= 60:
-        recommendations = "Good choice of area might have moderate competitons."
-    elif analysis["total_score"] >= 40:
-        recommendations = "Average area, you required strategic planning."
-    else:
-        recommendations = "High risk area."
-
-    #structure for result in JSON format
-    analysis_result = {
-        "Population Density": analysis["population_density"],
-        "Average Income": analysis["average_income"],
-        "Competition Count": analysis["competition_count"],
-        "Competition Score": analysis["competition_score"],
-        "Population Score": analysis["population_score"],
-        "Income Score": analysis["income_score"],
-        "Final Score": analysis["total_score"],
-        "Area Rating": analysis["area_rating"],
-        "Recommendation": recommendations
+    return {
+        "message": "Report generated successfully.",
+        "report_id": result["analysis_id"],
+        "analysis_result": {
+            "metrics": result.get("metrics"),
+            "recommendation": result.get("report_text")
+        }
     }
 
-    #query for insert into analysis_reports table
-    insert_query = text("""
-    INSERT INTO analysis_reports(user_id, target_category, target_area, analysis_result)
-    VALUES (:user_id, :target_category, :target_area, :analysis_result)
-    RETURNING id;
-    """).bindparams(
-            bindparam("analysis_result", type_=JSONB)
-    )
+#================= NEW API FOR ANALYSIS REPORT ====================#
+@router.get("/report/{report_id}")
+def get_report(report_id: int, db: Session = Depends(get_db)):
+    result = db.query(AnalysisResult).filter(AnalysisResult.id == report_id).first()
 
-    report_id = db.execute(insert_query, 
-                { 
-                    "user_id": data.user_id, 
-                    "target_category": data.category_id, 
-                    "target_area": data.area_name, 
-                    "analysis_result": analysis_result }).scalar()
+    if not result:
+        return {"error": "Report not found"}
+    
+    return {
+        "id": result.id,
+        "user_id": result.user_id,
+        "target_area": result.area_name,
+        "target_category": result.category_id,
+        "latitude": result.latitude,
+        "longitude": result.longitude,
+        "analysis_result": {
+            "metrics": result.result_data.get("metrics") if result.result_data else None,
+            "competition_details": result.result_data.get("competition_details") if result.result_data else None,
+            "recommendation": result.analysis_text
+        },
+        "created_at": result.created_at
+    }
+
+#================= DELETE REPORT ====================#
+@router.delete("/report/{report_id}")
+def delete_report(report_id: int, db: Session = Depends(get_db)):
+
+    result = db.execute(
+        text("DELETE FROM analysis_results WHERE id = :id RETURNING id"),
+        {"id": report_id}
+    ).fetchone()
+
+    if not result:
+        return {"error": "Report not found"}
 
     db.commit()
 
-    return {
-        "message": "Report generated succesfully.",
-        "report_id": report_id,
-        "analysis_result": analysis_result
-    }
+    return {"message": "Report deleted successfully"}

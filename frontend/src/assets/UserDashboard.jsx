@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useLocation } from "../context/LocationContext";
 import "../styles/DashBoard.css";
 import MapView from "../components/MapView";
 import ChatBotDrawer from "../components/ChatbotDrawer";
@@ -12,47 +13,58 @@ import LayersPanel from "../components/LayersPanel";
 const UserDashboard = () => {
     const mapViewRef = useRef(null);
 
-    const [ isChatOpen, setIsChatOpen ] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
-    const [ selectedLocation, setSelectedLocation ] = useState(null);
+    const { selectedLocation, setSelectedLocation } = useLocation();
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    const [ showMapTools, setShowMapTools ] = useState(false);
+    const [showMapTools, setShowMapTools] = useState(false);
 
-    const [ showLayers, setShowLayers ] = useState(false);
-    
-    return(
+    const [showLayers, setShowLayers] = useState(false);
+    const [activeLayers, setActiveLayers] = useState({});
+
+    const handleToggleLayer = (id, visible) => {
+        setActiveLayers(prev => ({ ...prev, [id]: visible }));
+    };
+
+    return (
         <>
-        <VideoBackground />
+            <VideoBackground />
 
-        <div className="dashboard-layout">
-            <SideBar 
-                onMapViewClick={() => setShowMapTools(prev => !prev)} 
-                onLayersClick={() => setShowLayers(prev => !prev)}    
-            />
-
-            {showMapTools && (
-                <MapToolsPanel onStyleChange={(style) => {if (mapViewRef.current) {mapViewRef.current.changeStyle(style)}}} />
-            )}
-
-            {showLayers && (
-                <LayersPanel 
-                    onToggleLayer={(id, visible) => mapViewRef.current.toggleLayer(id, visible)} 
-                    onClose={() => setShowLayers(false)} 
+            <div className="dashboard-layout">
+                <SideBar
+                    onMapViewClick={() => setShowMapTools(prev => !prev)}
+                    onLayersClick={() => setShowLayers(prev => !prev)}
                 />
-            )}
 
-            <div className="dashboard-main">
-                <TopBar user={user} onChatClick={() => setIsChatOpen(true)} />
+                {showMapTools && (
+                    <MapToolsPanel onStyleChange={(style) => { if (mapViewRef.current) { mapViewRef.current.changeStyle(style) } }} />
+                )}
 
-                <LocationInfo location={selectedLocation} />
+                {showLayers && (
+                    <LayersPanel
+                        activeLayers={activeLayers}
+                        onToggleLayer={handleToggleLayer}
+                        onClose={() => setShowLayers(false)}
+                    />
+                )}
 
-                <MapView ref={mapViewRef} onLocationSelect={setSelectedLocation} />
+                <div className="dashboard-main">
+                    <TopBar user={user} onChatClick={() => setIsChatOpen(true)} />
+
+                    <LocationInfo location={selectedLocation} />
+
+                    <MapView 
+                        ref={mapViewRef} 
+                        onLocationSelect={setSelectedLocation} 
+                        selectedLocation={selectedLocation}
+                        activeLayers={activeLayers}
+                    />
+                </div>
+
+                <ChatBotDrawer isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} location={selectedLocation} />
             </div>
-
-            <ChatBotDrawer isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} location={selectedLocation} />
-        </div>
         </>
     );
 };

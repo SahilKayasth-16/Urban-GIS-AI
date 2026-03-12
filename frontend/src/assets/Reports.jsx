@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/Reports.css";
 import VideoBackground from "../components/VideoBackground";
 
@@ -9,20 +10,37 @@ const Reports = () => {
     const [ reports, setReports ] = useState([]);
 
     useEffect(() => {
-        const storedReports = JSON.parse(localStorage.getItem("reports")) || [];
-        setReports(storedReports);
+        const fetchReports = async () => {
+            const token = localStorage.getItem("token");
+
+            const res = await axios.get("http://localhost:8000/analysis/user-results", {
+                headers: { 
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setReports(res.data);
+        };
+
+        fetchReports();
     }, []);
 
-    const handleDelete = (index) => {
-        const updatedReports = reports.filter((_, i) => i !== index);
-        setReports(updatedReports);
-        localStorage.setItem("reports", JSON.stringify(updatedReports));
+    const handleDelete = async (id) => {
+        try {
+            const token = localStorage.getItem("token");
+
+            await axios.delete(`http://localhost:8000/analysis/delete/${id}`,{ 
+                headers: { 
+                    Authorization: `Bearer ${token}` 
+                }
+            }
+        );
+            setReports(prev => prev.filter(r => r.id !== id));
+        } catch(error) {
+            console.error("Delete failed:", error);
+            alert("Failed to delete report");
+        }      
     };
 
-    const handleView = (report) => {
-        localStorage.setItem("SelectedReport", JSON.stringify(report));
-        navigate("/result");
-    };
     return (
         <>
         <VideoBackground />
@@ -39,30 +57,24 @@ const Reports = () => {
                 </div>
             ) : (
                 <div className="reports-list">
-                    {reports.map((report, index) => (
-                        <div className="report-card" key={index}>
-                            <h3>{report.query}</h3>
+                    {reports.map((report) => (
+                        <div className="report-card" key={report.id}>
+                            <h3>{report.area_name}</h3>
 
                             <p>
-                                <strong>Location:</strong>{" "}
-                                {report.location ?.name || "N/A"}
+                                <strong>Latitude:</strong> {report.latitude} |
+                                <strong> Longitude:</strong> {report.longitude}
                             </p>
 
                             <p>
-                                <strong>Latitude:</strong>{" "}
-                                {report.location?.latitude || "--"} |{" "}
-                                <strong>Longitude:</strong>{" "}
-                                {report.location?.longitude || "--"}
-                            </p>
-
-                            <p>
-                                <strong>Generated on:</strong> {report.generatedAt}
+                                <strong>Generated on:</strong>{" "}
+                                {new Date(report.created_at).toLocaleString()}
                             </p>
 
                             <div className="report-actions">
-                                <button onClick={() => handleView(report)}>View</button>
+                                <button onClick={() => navigate(`/result/${report.id}`)}>View</button>
                                 <button disabled>Download</button>
-                                <button onClick={() => handleDelete(index)}>Delete</button>
+                                <button onClick={() => {if (window.confirm("Delete this report ?")) handleDelete(report.id)}}>Delete</button>
                             </div>
                         </div>
                     ))}

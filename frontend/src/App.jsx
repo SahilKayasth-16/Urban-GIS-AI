@@ -24,6 +24,9 @@ import BusinessStatus from './assets/BusinessStatus';
 import BusinessApprovals from './assets/BusinessApprovals';
 import Process from './assets/Process';
 import AnalyticsPage from './assets/AnalyticsPage';
+import AnalysisResult from './assets/ResultPage';
+import UserManagement from './assets/UserManagement';
+import AdminSettings from './assets/AdminSettings';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -36,7 +39,7 @@ function App() {
       <Route path='/login' element={<LoginPage />} />
       <Route path='/admindashboard' element={<AdminDashboard />} />
       <Route path='/userdashboard' element={<UserDashboard />} />
-      <Route path='/result/:resultId' element={<ResultPage />} />
+      <Route path='/result/:resultId' element={<AnalysisResult />} />
       <Route path='/reports' element={<Reports />} />
       <Route path='/changepassword' element={<ChangePassword />} />
       <Route path='/mapview' element={<MapView />} />
@@ -49,6 +52,8 @@ function App() {
       <Route path="/business/status" element={<BusinessStatus />} />
       <Route path="/admin/business-approvals" element={<BusinessApprovals />} />
       <Route path="/analytics" element={<AnalyticsPage />} />
+      <Route path="/admin/users" element={<UserManagement />} />
+      <Route path="/admin/settings" element={<AdminSettings />} />
     </Routes>
       
     </>

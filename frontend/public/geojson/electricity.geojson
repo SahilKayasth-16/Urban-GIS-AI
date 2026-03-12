@@ -1,35 +1,86 @@
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "electricity",
-        "voltage": "220kV",
-        "name": "High Voltage Line"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [72.8777, 19.0760],
-          [73.8567, 18.5204]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "electricity",
-        "voltage": "110kV",
-        "name": "Regional Power Line"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [77.2090, 28.6139],
-          [78.0081, 27.1767]
-        ]
-      }
-    }
-  ]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Western Grid"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.46,
+                        23.03
+                    ],
+                    [
+                        72.51,
+                        23.03
+                    ],
+                    [
+                        72.51,
+                        23.07
+                    ],
+                    [
+                        72.53,
+                        23.09
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Central Spine"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.57,
+                        22.98
+                    ],
+                    [
+                        72.57,
+                        23.04
+                    ],
+                    [
+                        72.58,
+                        23.08
+                    ],
+                    [
+                        72.59,
+                        23.12
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Eastern Grid"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.63,
+                        23.0
+                    ],
+                    [
+                        72.63,
+                        23.04
+                    ],
+                    [
+                        72.66,
+                        23.06
+                    ],
+                    [
+                        72.67,
+                        23.08
+                    ]
+                ]
+            }
+        }
+    ]
 }

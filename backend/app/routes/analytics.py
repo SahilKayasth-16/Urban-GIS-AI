@@ -48,3 +48,46 @@ def analytics_overview(db: Session = Depends(get_db)):
             for r in rows
         ]
     }
+
+#=================== API FOR BUSINESS CATEGORY DISTRIBUTION BY PIECHART ===================#
+@router.get("/analytics/business-categories")
+def business_category_distribution(db: Session = Depends(get_db)):
+
+    query = text("""
+    SELECT bc.category_type, COUNT(bl.id) AS total
+    FROM business_listings bl
+    JOIN business_categories bc
+    ON bl.category_id = bc.id
+    GROUP BY bc.category_type
+    ORDER BY total DESC;
+    """)
+
+    result = db.execute(query).fetchall()
+
+    data = [
+        {"category": row[0], "count": row[1]}
+        for row in result
+    ]
+
+    return data
+   
+#==================== COMPETITOR DENSITY MAP BY HEATMAP ===================#
+@router.get("/analytics/business-heatmap")
+def business_heatmap(db: Session = Depends(get_db)):
+    
+    query = text("""
+    SELECT latitude, longitude
+    FROM business_listings
+    WHERE latitude IS NOT NULL
+    AND longitude IS NOT NULL
+    AND status = 'approved';
+    """)
+
+    result = db.execute(query).fetchall()
+
+    data = [
+        {"lat": row[0], "lng": row[1]}
+        for row in result
+    ]
+
+    return data

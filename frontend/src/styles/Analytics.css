@@ -2,7 +2,6 @@
 .analytics-page {
   min-height: 100vh;
   padding: 40px;
-  background: radial-gradient(circle at top left, #1e293b, #0f172a); /* Deeper, richer background */
   color: #f8fafc;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
@@ -138,6 +137,21 @@ progress::-webkit-progress-value {
   font-size: 0.9rem;
   margin-top: 15px;
   display: block;
+}
+
+.analytics-page button {
+  margin-top: 40px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #0ea5e9;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analytics-page button:hover {
+  background: #0284c7;
 }
 
 /* ===== Responsive Adjustments ===== */

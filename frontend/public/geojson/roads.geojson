@@ -3,15 +3,151 @@
     "features": [
         {
             "type": "Feature",
-            "properties": { "type": "road"},
+            "properties": {
+                "name": "S.G. Highway",
+                "type": "highway"
+            },
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
-                    [78.96, 20.59],
-                    [78.96, 20.59]
+                    [
+                        72.48,
+                        22.94
+                    ],
+                    [
+                        72.49,
+                        22.98
+                    ],
+                    [
+                        72.5,
+                        23.02
+                    ],
+                    [
+                        72.51,
+                        23.06
+                    ],
+                    [
+                        72.53,
+                        23.12
+                    ],
+                    [
+                        72.55,
+                        23.18
+                    ]
                 ]
             }
-
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Ashram Road",
+                "type": "highway"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.57,
+                        22.97
+                    ],
+                    [
+                        72.57,
+                        23.02
+                    ],
+                    [
+                        72.57,
+                        23.06
+                    ],
+                    [
+                        72.58,
+                        23.1
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "132 Feet Ring Road",
+                "type": "major"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.54,
+                        22.98
+                    ],
+                    [
+                        72.55,
+                        23.0
+                    ],
+                    [
+                        72.56,
+                        23.03
+                    ],
+                    [
+                        72.56,
+                        23.07
+                    ],
+                    [
+                        72.55,
+                        23.1
+                    ],
+                    [
+                        72.53,
+                        23.13
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Drive-In Road",
+                "type": "major"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.5,
+                        23.046
+                    ],
+                    [
+                        72.53,
+                        23.046
+                    ],
+                    [
+                        72.56,
+                        23.046
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Airport Road",
+                "type": "major"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.59,
+                        23.06
+                    ],
+                    [
+                        72.63,
+                        23.07
+                    ],
+                    [
+                        72.68,
+                        23.075
+                    ]
+                ]
+            }
         }
     ]
 }

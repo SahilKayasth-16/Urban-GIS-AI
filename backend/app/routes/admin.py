@@ -50,3 +50,22 @@ def update_business_status(
         "status": status
     }
 
+#=============== GET ALL USERS ===============#
+@router.get("/users")
+def get_all_users(db: Session = Depends(get_db), admin = Depends(admin_only)):
+    return db.query(User).all()
+
+#=============== DELETE USER ===============#
+@router.delete("/user/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db), admin = Depends(admin_only)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    # Prevent self-deletion
+    if user.id == admin.id:
+        raise HTTPException(status_code=400, detail="Admins cannot delete themselves.")
+
+    db.delete(user)
+    db.commit()
+    return {"message": "User deleted successfully.", "user_id": user_id}

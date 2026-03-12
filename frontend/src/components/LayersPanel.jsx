@@ -9,27 +9,33 @@ const layers = [
     {id: "power-layer", label: "Electricity"},
 ];
 
-const LayersPanel = ({ onToggleLayer, onClose }) => {
-    const [ active, setActive ] = useState([]);
-
+const LayersPanel = ({ activeLayers, onToggleLayer, onClose }) => {
     const handleChange = (id) => {
-        const next = !active[id];
-        setActive({...active, [id]: next });
+        const next = !activeLayers[id];
         onToggleLayer(id, next);
-        onClose();
     };
 
     return(
         <>
         <div className="layers-panel" onClick={e => e.stopPropagation()}>
-            <h4>📚 Layers</h4>
+            <div className="panel-header">
+                <h4>📚 Layers</h4>
+                <button className="close-btn" onClick={onClose}>✖</button>
+            </div>
 
-            {layers.map(layer => (
-                <label key={layer.id}>
-                    <input type="checkbox" checked={!!active[layer.id]} onChange={() => handleChange(layer.id)} />
-                    {layer.label}
-                </label>
-            ))}
+            <div className="layers-list">
+                {layers.map(layer => (
+                    <label key={layer.id} className="layer-item">
+                        <input 
+                            type="checkbox" 
+                            checked={!!activeLayers[layer.id]} 
+                            onChange={() => handleChange(layer.id)} 
+                        />
+                        <span className="checkbox-custom"></span>
+                        {layer.label}
+                    </label>
+                ))}
+            </div>
         </div>
         </>
     );

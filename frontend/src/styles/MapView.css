@@ -19,58 +19,16 @@ body {
 .map-wrapper {
     position: relative;
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .map-container {
-    height: calc(100vh - 90px);
+    flex: 1;
     border-radius: 12px;
     overflow: hidden;
 }
-
-/* =====================
-   MAP SEARCH BAR
-===================== */
-/* .map-search {
-    position: absolute;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    overflow: hidden;
-    z-index: 5;
-}
-
-.map-search input {
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #ffffff;
-    padding: 5px 8px;
-    width: 260px;
-    font-size: 14px;
-}
-
-.map-search input::placeholder {
-    color: #cccccc;
-}
-
-.map-search button {
-    border: none;
-    background: #0072ff;
-    color: #ffffff;
-    padding: 10px 16px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s ease;
-}
-
-.map-search button:hover {
-    background: #005edc;
-} */
 
 /* =====================
    MAP SEARCH BAR (IMPROVED)
@@ -153,7 +111,7 @@ body {
         width: 200px;
     }
 
-     .map-search {
+    .map-search {
         top: 12px;
         width: 90%;
     }
@@ -176,4 +134,3 @@ body {
         width: 100%;
     }
 }
-

@@ -3,15 +3,65 @@
     "features": [
         {
             "type": "Feature",
-            "properties": { "type": "railways"},
+            "properties": {
+                "name": "Western Railway Corridor"
+            },
             "geometry": {
                 "type": "LineString",
                 "coordinates": [
-                    [78.96, 20.59],
-                    [78.96, 20.59]
+                    [
+                        72.6,
+                        22.94
+                    ],
+                    [
+                        72.59,
+                        22.98
+                    ],
+                    [
+                        72.6,
+                        23.03
+                    ],
+                    [
+                        72.59,
+                        23.07
+                    ],
+                    [
+                        72.58,
+                        23.12
+                    ],
+                    [
+                        72.57,
+                        23.18
+                    ]
                 ]
             }
-
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Gandhigram Branch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        72.57,
+                        23.03
+                    ],
+                    [
+                        72.54,
+                        23.01
+                    ],
+                    [
+                        72.51,
+                        22.99
+                    ],
+                    [
+                        72.47,
+                        22.96
+                    ]
+                ]
+            }
         }
     ]
 }
