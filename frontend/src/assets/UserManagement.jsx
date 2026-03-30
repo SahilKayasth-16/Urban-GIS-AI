@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ROLES } from "../constants/roles";
-import VideoBackground from "../components/VideoBackground";
 import { useAuth } from "../context/AuthContext";
+import AppHeader from "../components/AppHeader";
 import "../styles/UserManagement.css";
 
 const UserManagement = () => {
@@ -12,7 +12,6 @@ const UserManagement = () => {
     const { user: currentUser } = useAuth();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
-
 
     useEffect(() => {
         fetchUsers();
@@ -48,63 +47,72 @@ const UserManagement = () => {
         }
     };
 
-    if (loading) return <div className="loading">Loading Users...</div>;
-
-    const handleMoveToDashboard = () => {
+    const handleBack = () => {
         if (user?.role === ROLES.ADMIN) {
           navigate("/admindashboard");
         } else {
           navigate("/userdashboard");
         }
     }
+
+    if (loading) return <div className="loading-screen">Loading Geospatial Personnel...</div>;
+
     return (
-        <>
-        <VideoBackground />
-        <div className="user-management-container">
-            <h1>User Management</h1>
-            <div className="table-wrapper">
-                <table className="user-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Password (Hash)</th>
-                            <th>Role</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td className="password-cell" title={user.password_hash}>
-                                    {user.password_hash.substring(0, 15)}...
-                                </td>
-                                <td><span className={`role-badge ${user.role}`}>{user.role}</span></td>
-                                <td>
-                                    <button 
-                                        onClick={() => handleDeleteUser(user.id)}
-                                        className="delete-btn"
-                                        disabled={user.id === currentUser?.id}
-                                    >
-                                        <i className="fa-solid fa-trash"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            <div>
-            <button onClick={handleMoveToDashboard}>
-                <i className="fa-solid fa-arrow-left"></i> Back to dashboard
-            </button>
+        <div className="admin-page-wrapper">
+            <AppHeader />
+            <div className="admin-container">
+                <div className="admin-header">
+                    <div>
+                        <h1>User Management</h1>
+                        <p>Configure access control and manage personnel profiles.</p>
+                    </div>
+                    <button className="btn btn-secondary" onClick={handleBack}>
+                        <i className="fa-solid fa-arrow-left"></i> Dashboard
+                    </button>
+                </div>
+
+                <div className="table-card">
+                    <div className="table-responsive">
+                        <table className="user-table">
+                            <thead>
+                                <tr>
+                                    <th>Personnel ID</th>
+                                    <th>Username</th>
+                                    <th>Email Access</th>
+                                    <th>Auth Status</th>
+                                    <th>Organization Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((u) => (
+                                    <tr key={u.id}>
+                                        <td className="id-cell">#00{u.id}</td>
+                                        <td className="user-cell">
+                                            <div className="user-avatar">{u.username.charAt(0).toUpperCase()}</div>
+                                            <span>{u.username}</span>
+                                        </td>
+                                        <td>{u.email}</td>
+                                        <td><span className="status-indicator active">Verified</span></td>
+                                        <td><span className={`role-badge ${u.role}`}>{u.role}</span></td>
+                                        <td>
+                                            <button 
+                                                onClick={() => handleDeleteUser(u.id)}
+                                                className="btn-icon delete"
+                                                disabled={u.id === currentUser?.id}
+                                                title="Revoke Access"
+                                            >
+                                                <i className="fa-solid fa-user-slash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        </>
     );
 };
 

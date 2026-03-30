@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import "../styles/LoginPage.css";
 import { Link, useNavigate } from 'react-router-dom';
-import VideoBackground from "../components/VideoBackground";
+import AppHeader from "../components/AppHeader";
 import { useAuth } from "../context/AuthContext";
 import { ROLES } from "../constants/roles";
 
@@ -65,29 +65,58 @@ const LoginPage = () => {
 }
 
     return (
-        <>
-        <VideoBackground />
-        <div className="main">
-            <h1>Welcome Back</h1>
-            <h3>Login to Urban GIS AI</h3>
+        <div className="login-page">
+            <AppHeader />
+            <div className="login-container">
+                <div className="login-card">
+                    <div className="login-header">
+                        <h1>Welcome Back</h1>
+                        <p>Login to your Urban GIS AI account</p>
+                    </div>
 
-            <form onSubmit={handleLogin}>
-                <label htmlFor="username">Username:</label>
-                <input type="text"  placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <form onSubmit={handleLogin} className="login-form">
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input 
+                                type="text" 
+                                id="username"
+                                placeholder="Enter your username" 
+                                value={username} 
+                                onChange={(e) => setUsername(e.target.value)} 
+                            />
+                        </div>
 
-                <label htmlFor="password">Password:</label>
-                <input type="password" placeholder="Enter yuor password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-        
-                <button type="submit">Login</button>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input 
+                                type="password" 
+                                id="password"
+                                placeholder="Enter your password" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
 
-                <h5><Link to={"/changepassword"}>Forgot / Change Password</Link></h5>
-            
-                <h5>
-                    Haven't registered yet ? <Link to={"/registration"}>Register yourself</Link>
-                </h5>
-            </form>
+                        <div className="login-options">
+                            <label className="remember-me">
+                                <input type="checkbox" /> Remember me
+                            </label>
+                            <Link to="/changepassword" title="Change Password" className="forgot-password">
+                                Forgot password?
+                            </Link>
+                        </div>
+                
+                        <button type="submit" className="login-btn">Sign In</button>
+
+                        <div className="login-footer">
+                            <p>
+                                Don't have an account? <Link to="/registration">Sign up now</Link>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        </>
     );
 }
 

@@ -6,59 +6,29 @@
   height: 100%;
   z-index: -1;
   overflow: hidden;
+  background-color: var(--bg-deep);
 }
 
 .bg-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.15; /* More subtle video */
+  filter: grayscale(100%) brightness(0.5); /* GIS aesthetic */
 }
 
-/* GIS + AI Gradient Overlay */
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 10, 30, 0.75),
-    rgba(0, 40, 80, 0.65),
-    rgba(0, 0, 0, 0.85)
-  );
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-deep) 100%),
+              linear-gradient(to bottom, rgba(11, 14, 20, 0.4), var(--bg-deep));
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .bg-video {
     display: none;
-  }
-
-  .video-container {
-    background: linear-gradient(
-      135deg,
-      #081426,
-      #0b2a4a,
-      #000000
-    );
-  }
-
-  .video-overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.85),
-      rgba(0, 30, 60, 0.9)
-    );
-  }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .video-overlay {
-    background: linear-gradient(
-      135deg,
-      rgba(0, 10, 30, 0.8),
-      rgba(0, 20, 50, 0.75),
-      rgba(0, 0, 0, 0.9)
-    );
   }
 }

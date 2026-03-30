@@ -1,60 +1,91 @@
-.location-card {
-    background: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin: 10px auto;
-    color: #fff;
+.location-info {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 8px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: var(--transition-normal);
+    animation: fadeInDown 0.5s ease-out;
     width: fit-content;
-    backdrop-filter: blur(6px);
+    max-width: 100%;
 }
 
-.location-card h4 {
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: #00ffd5;
+.location-info.empty {
+    padding: 12px 20px;
 }
 
-.location-card p {
-    margin: 2px 0;
-    font-size: 13px;
+.info-header-compact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
-.location-card.empty {
-    color: #ccc;
-    font-style: italic;
+.info-content-compact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    overflow: hidden;
 }
 
-/* ================= TABLET ================= */
+.info-item-compact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+}
+
+.info-item-compact .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.info-item-compact .value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--glass-border);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (max-width: 1024px) {
-    .location-card {
-        padding: 12px 16px;
-        margin: 10px 12px;
-        max-width: 60%;
+    .location-info {
+        flex-wrap: wrap;
+        gap: 8px;
     }
-
-    .location-card h4 {
-        font-size: 13.5px;
-    }
-
-    .location-card p {
-        font-size: 12.5px;
-    }
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-    .location-card {
-        width: 90%;
-        margin: 10px auto;
-        padding: 10px 14px;
-    }
-
-    .location-card h4 {
-        font-size: 13px;
-    }
-
-    .location-card p {
-        font-size: 12px;
+    
+    .info-divider {
+        display: none;
     }
 }

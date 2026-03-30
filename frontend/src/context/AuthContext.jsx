@@ -4,7 +4,15 @@ import { ROLES } from "../constants/roles";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem("user");
+        try {
+            return savedUser ? JSON.parse(savedUser) : null;
+        } catch (error) {
+            console.error("Error parsing user from localStorage:", error);
+            return null;
+        }
+    });
 
     const login = (userData) => {
         // Clear previous session data for a fresh start

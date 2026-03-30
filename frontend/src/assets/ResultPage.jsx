@@ -4,7 +4,7 @@ import axios from "axios";
 import html2pdf from "html2pdf.js";
 import "../styles/ResultPage.css";
 import ReportGraph from "../components/ReportGraph";
-import VideoBackground from "../components/VideoBackground";
+import AppHeader from "../components/AppHeader";
 
 const AnalysisResult = () => {
   const { resultId } = useParams();
@@ -38,7 +38,7 @@ const AnalysisResult = () => {
       await axios.delete(
         `http://localhost:8000/report/${resultId}`
       );
-      navigate("/dashboard");
+      navigate("/userdashboard");
     } catch (error) {
       console.error("Delete failed:", error);
     }
@@ -50,17 +50,32 @@ const AnalysisResult = () => {
 
   const handleDownloadPDF = () => {
     const element = document.getElementById("report-content");
+    const originalStyle = element.style.cssText;
+    
+    // PDF optimization styles: scale to ~A4 width perfectly
+    element.style.width = "790px";
+    element.style.padding = "20px";
+    element.style.background = "#ffffff"; 
+
     const opt = {
       margin: 10,
-      filename: "Urban GIS AI Analysis Report.pdf",
+      filename: `Urban_GIS_AI_Report_${resultId}.pdf`,
       image: { type: "jpeg", quality: 1 },
-      html2canvas: { scale: 3, useCORS: true },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true, 
+        logging: false,
+        backgroundColor: "#ffffff",
+        windowWidth: 790
+      },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
 
     document.body.classList.add("generating-pdf");
 
     html2pdf().set(opt).from(element).save().then(() => {
+      element.style.cssText = originalStyle;
       document.body.classList.remove("generating-pdf");
     });
   };
@@ -69,48 +84,54 @@ const AnalysisResult = () => {
   if (!result) return <div className="loading">Result not found</div>;
 
   return (
-    <>
-      <VideoBackground />
+    <div className="result-page">
+      <AppHeader />
       <div className="result-container">
         <div className="result-card" id="report-content">
-
-          {/* PDF ONLY HEADER */}
-          <div className="pdf-only-header">
-            <div className="pdf-header-top">
-              <h1>Urban GIS AI</h1>
-              <span>Analysis Report</span>
+          <div className="result-header">
+            <div className="header-badge">GEOSPATIAL INSIGHTS</div>
+            <h1>AI Analysis Report</h1>
+            <p className="subtitle">Detailed synthesis of urban metrics and geospatial intelligence</p>
+            
+            <div className="report-meta">
+              <div className="meta-item">
+                <i className="fa-solid fa-location-dot"></i>
+                <div>
+                  <span className="label">Target Area</span>
+                  <span className="value">{result.target_area}</span>
+                </div>
+              </div>
+              <div className="meta-item">
+                <i className="fa-solid fa-calendar"></i>
+                <div>
+                  <span className="label">Date Generated</span>
+                  <span className="value">{new Date(result.created_at).toLocaleString()}</span>
+                </div>
+              </div>
+              {result.latitude && (
+                <div className="meta-item">
+                  <i className="fa-solid fa-map"></i>
+                  <div>
+                    <span className="label">Coordinates</span>
+                    <span className="value">{Number(result.latitude).toFixed(4)}, {Number(result.longitude).toFixed(4)}</span>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="pdf-header-meta">
-              <p><strong>Area:</strong> {result.target_area}</p>
-              <p><strong>Generated:</strong> {new Date(result.created_at).toLocaleString()}</p>
-            </div>
-            <hr />
           </div>
 
-          <h2 className="screen-only">AI Analysis Report</h2>
-
-          <div className="location-info screen-only">
-            <p><strong>Area:</strong> {result.target_area}</p>
-            {result.latitude && (
-              <p><strong>Latitude:</strong> {Number(result.latitude).toFixed(4)}°</p>
-            )}
-            {result.longitude && (
-              <p><strong>Longitude:</strong> {Number(result.longitude).toFixed(4)}°</p>
-            )}
-            <p><strong>Date:</strong> {new Date(result.created_at).toLocaleString()}</p>
-          </div>
-
-          {/* METRICS SECTION */}
-          <div className="analysis-box metrics-container">
-            <h3>📊 Area Metrics</h3>
-
+          <div className="section-card">
+            <h2><i className="fa-solid fa-chart-line"></i> Area Metrics</h2>
             {result.analysis_result?.metrics && (
               <div className="metrics-grid">
                 {Object.entries(result.analysis_result.metrics).map(([key, value]) => {
-                  if (key.includes("score")) return null; // Skip scores in the grid, show them in graphs
+                  if (key.includes("score")) return null;
                   return (
                     <div key={key} className="metric-item">
-                      <strong>{key.replaceAll("_", " ")}:</strong> {typeof value === "number" ? value.toLocaleString() : value}
+                      <span className="metric-label">{key.replaceAll("_", " ")}</span>
+                      <span className="metric-value">
+                        {typeof value === "number" ? value.toLocaleString() : value}
+                      </span>
                     </div>
                   );
                 })}
@@ -118,34 +139,27 @@ const AnalysisResult = () => {
             )}
           </div>
 
-          <div className="page-break"></div>
-
-          {/* AI RECOMMENDATIONS */}
-          <div className="analysis-box recommendations-container">
-            <h3>🤖 AI Recommendations</h3>
-            <div className="recommendations-content">
+          <div className="section-card ai-recommendations">
+            <h2><i className="fa-solid fa-robot"></i> AI Recommendations</h2>
+            <div className="recommendations-list">
               {result.analysis_result?.recommendation
                 ?.split("\n")
                 .map((line, i) => {
                   const trimmed = line.trim();
                   if (!trimmed) return null;
 
-                  if (/^\d+\./.test(trimmed)) {
-                    return <p key={i} className="numbered">{trimmed}</p>;
-                  }
-
-                  if (trimmed.startsWith("-") || trimmed.startsWith("•")) {
-                    return <p key={i} className="bullet">{trimmed}</p>;
-                  }
-
-                  return <p key={i}>{trimmed}</p>
+                  return (
+                    <div key={i} className="recommendation-card">
+                      <i className="fa-solid fa-circle-check"></i>
+                      <p>{trimmed.replace(/^[-•\d.]+\s*/, '')}</p>
+                    </div>
+                  );
                 })}
             </div>
           </div>
 
-          <div className="page-break"></div>
-
-          <div className="graphs-section">
+          <div className="section-card graphs-section">
+            <h2><i className="fa-solid fa-chart-bar"></i> Visual Analytics</h2>
             <ReportGraph
               key={resultId}
               metrics={result.analysis_result?.metrics}
@@ -153,23 +167,23 @@ const AnalysisResult = () => {
             />
           </div>
 
-          <div className="button-group no-print">
-            <button className="btn back" onClick={handleBack}>
-              <i className="fa-solid fa-arrow-left"></i> Back to Dashboard
-            </button>
+        </div> {/* End of report-content */}
 
-            <button className="btn save" onClick={handleDownloadPDF}>
-              Save as PDF
+        <div className="result-actions no-print">
+          <button className="btn back-btn" onClick={handleBack}>
+            <i className="fa-solid fa-arrow-left"></i> Back to Dashboard
+          </button>
+          <div className="action-right">
+            <button className="btn download-btn" onClick={handleDownloadPDF}>
+              <i className="fa-solid fa-file-pdf"></i> Download PDF
             </button>
-
-            <button className="btn delete" onClick={handleDelete}>
-              Delete
+            <button className="btn delete-btn" onClick={handleDelete}>
+              <i className="fa-solid fa-trash"></i> Delete
             </button>
           </div>
-
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

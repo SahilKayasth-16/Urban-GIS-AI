@@ -42,10 +42,10 @@ const BusinessTable = ({ businesses }) => {
             <td>{b.status}</td>
             <td>
               {b.status === "pending" && (
-                <>
+                <div className="action-btns">
                   <button onClick={() => updateStatus(b.id, "approved")}>✅</button>
                   <button onClick={() => updateStatus(b.id, "rejected")}>❌</button>
-                </>
+                </div>
               )}
             </td>
           </tr>

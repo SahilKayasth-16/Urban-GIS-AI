@@ -2,8 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ROLES } from "../constants/roles";
 import "../styles/Analytics.css";
-
-import VideoBackground from "../components/VideoBackground";
+import AppHeader from "../components/AppHeader";
 import BusinessCategoryChart from "../components/BusinessDistributionCategoryChart";
 import BusinessHeatmap from "../components/BusinessHeatmap";
 
@@ -20,34 +19,33 @@ const AnalyticsPage = () => {
   };
 
   return (
-    <>
-    <VideoBackground />
-      <div className="analytics-page">
-        
-        <h1>
-          📊 Analytics
-        </h1>
+    <div className="analytics-page-wrapper">
+      <AppHeader />
+      <div className="analytics-container">
+        <div className="analytics-header">
+          <h1>📊 Analytics Dashboard</h1>
+          <p>Visualizing business distributions and geospatial density</p>
+        </div>
 
-        <div className="analytics-grid">
-
-          {/* Business Category Pie Chart */}
+        <div className="charts-grid">
           <div className="chart-card">
+            <h3><i className="fa-solid fa-chart-pie"></i> Business Category Distribution</h3>
             <BusinessCategoryChart />
           </div>
 
-          {/* Business Density Heatmap */}
           <div className="chart-card">
+            <h3><i className="fa-solid fa-fire"></i> Business Density Heatmap</h3>
             <BusinessHeatmap />
           </div>
-
         </div>
 
-        <button onClick={handleMoveToDashboard}>
-          <i className="fa-solid fa-arrow-left"></i> Back to dashboard
-        </button>
-
+        <div className="analytics-actions">
+           <button className="btn btn-secondary" onClick={handleMoveToDashboard}>
+            <i className="fa-solid fa-arrow-left"></i> Back to Dashboard
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

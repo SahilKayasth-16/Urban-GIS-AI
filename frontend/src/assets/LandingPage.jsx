@@ -1,70 +1,99 @@
 import React from "react";
 import "../styles/LandingPage.css";
 import { Link } from 'react-router-dom';
-import VideoBackground from "../components/VideoBackground";
-import logo from "../assets/image/urban_gis_ai_logo.png";
+import AppHeader from "../components/AppHeader";
+import AppFooter from "../components/AppFooter";
 
 const LandingPage = () => {
-    return(
-        <>
-        <VideoBackground />
-        <div className="main">
-            <div className="heading">
-                
-                <a href={logo} target="_blank" rel="noreferrer noopener"><h1>Urban GIS AI</h1></a><br /> 
-                <h3>Smart Urban Planning with AI-Powered GIS Analytics</h3><br />
-                <h5>Transform your urban planning workflow with intelligent geospatial analysis. Our platform<br />
-                    combines advanced GIS mapping with AI-powered chatbot assistance to help you make data-<br />
-                    driven decisions for utility management and urban development.</h5>
-            </div>
+    return (
+        <div className="landing-page">
+            <AppHeader />
+            
+            <main className="content-wrapper">
+                {/* Hero Section */}
+                <section className="hero-section">
+                    <div className="hero-badge">AI-Powered Geospatial Analysis</div>
+                    <h1>Smart Urban Planning with AI-Powered GIS</h1>
+                    <h3>Transform your workflow with intelligent geospatial analytics and data-driven insights.</h3>
+                    <p className="hero-description">
+                        Our platform combines advanced GIS mapping with AI-driven chatbot assistance to help you make informed decisions for utility management and sustainable urban development.
+                    </p>
+                    <div className="hero-actions">
+                        <Link to="/registration" className="btn-primary">Get Started Now</Link>
+                        <Link to="/mapview" className="btn-secondary">Explore Live Map</Link>
+                    </div>
+                </section>
 
-            <div className="static_cards">
-                <div className="card_1">
-                    <h1><i className="fa-solid fa-location-dot"></i></h1>
-                    <h3>Interactive GIS Mapping</h3>
-                </div>
+                {/* Features Section */}
+                <section className="features-section">
+                    <div className="section-header">
+                        <h2>Advanced Platform Features</h2>
+                        <p>Powerful tools designed for modern urban environments</p>
+                    </div>
+                    <div className="features-grid">
+                        <div className="feature-card">
+                            <div className="feature-icon"><i className="fa-solid fa-location-dot"></i></div>
+                            <h3>Interactive GIS Mapping</h3>
+                            <p>Visualize complex spatial data with our high-performance interactive maps and custom layers.</p>
+                        </div>
+                        <div className="feature-card">
+                            <div className="feature-icon"><i className="fa-regular fa-comments"></i></div>
+                            <h3>AI Chatbot Assistant</h3>
+                            <p>Query your GIS data naturally with our integrated AI assistant that helps interpret complex patterns.</p>
+                        </div>
+                        <div className="feature-card">
+                            <div className="feature-icon"><i className="fa-regular fa-file-lines"></i></div>
+                            <h3>Comprehensive Reports</h3>
+                            <p>Generate detailed automated reports with one click to share findings with stakeholders.</p>
+                        </div>
+                    </div>
+                </section>
 
-                <div className="card_2">
-                    <h1><i className="fa-regular fa-comments"></i></h1>
-                    <h3>AI CHatbot Assistant</h3>
-                </div>
+                {/* Usefulness Section */}
+                <section id="about-us" className="benefits-section">
+                    <div className="benefits-content">
+                        <h2>Why UrbanGIS AI?</h2>
+                        
+                        <div className="benefit-item">
+                            <h3><i className="fa-solid fa-city"></i> For Urban Planners</h3>
+                            <ul>
+                                <li>Streamline utility infrastructure planning</li>
+                                <li>Analyze geographic constraints in real-time</li>
+                                <li>Optimize resource allocation effectively</li>
+                                <li>Monitor urban expansion with historical data</li>
+                            </ul>
+                        </div>
 
-                <div className="card_3">
-                    <h1><i className="fa-regular fa-file-lines"></i></h1>
-                    <h3>Comprehensive Reports</h3>
-                </div>
-            </div>
+                        <div className="benefit-item">
+                            <h3><i className="fa-solid fa-user-tie"></i> For Decision Makers</h3>
+                            <ul>
+                                <li>Data-driven policy recommendations</li>
+                                <li>Real-time spatial analysis for quick responses</li>
+                                <li>Track development trends and ROI</li>
+                                <li>Enhance collaboration across departments</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div className="benefits-visual glass-effect">
+                        <img 
+                            src="Urban Planning With Utility Management System.png" 
+                            alt="Urban Planning With Utility Management System" 
+                            className="benefits-img"
+                        />
+                    </div>
+                </section>
 
-            <div className="usefulness">
-                <h1>Why UrbanGIS AI ?</h1>
+                {/* CTA Section */}
+                <section className="cta-section hero-section" style={{padding: '100px 40px', background: 'var(--bg-surface)'}}>
+                    <h2>Ready to Build ?</h2>
+                    <p className="hero-description">Join hundreds of urban planners using our platform.</p>
+                    <Link to="/registration" className="btn-primary">Create Your Account</Link>
+                </section>
+            </main>
 
-                <div className="list_1">
-                    <h3>For Urban Planners</h3>
-                    <ul>
-                        <li><h5>Streamline utility infrastructure planning</h5></li>
-                        <li><h5>Analyze grographic data</h5></li>
-                        <li><h5>Optimize resource allocation</h5></li>
-                        <li><h5>Monitor urban development tools</h5></li>
-                    </ul>
-                </div>
-
-                <div className="list_2">
-                    <h3>For Decision makers</h3>
-                        <li><h5>Data driven policy recommendations</h5></li>
-                        <li><h5>Real time spatial analysis</h5></li>
-                        <li><h5>Historical trend tracking</h5></li>
-                        <li><h5>Collaborative and efficient planning</h5></li>
-                </div>
-            </div>
-
-            <div className="start">
-                <Link to={'/registration'}>
-                <button type="submit">Get Started</button>
-                </Link>
-                
-            </div>
+            <AppFooter />
         </div>
-        </>
     );
 }
 

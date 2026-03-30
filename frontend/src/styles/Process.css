@@ -1,117 +1,61 @@
-/* Layout */
-.business-layout {
+.process-timeline {
+    max-width: 800px;
     display: flex;
-    min-height: 100vh;
-    color: #fff;
+    flex-direction: column;
+    gap: 40px;
+    position: relative;
+    padding-left: 20px;
 }
 
-/* Main content */
-.business-content {
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 44px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
+    opacity: 0.3;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    background: var(--bg-surface-elevated);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: var(--primary);
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.step-content {
+    background: var(--bg-surface);
+    padding: 24px;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-subtle);
     flex: 1;
-    padding: 40px 60px;
-    z-index: 1;
 }
 
-.business-content h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-    letter-spacing: 1px;
+.step-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
 }
 
-/* Approval steps container */
-.business-grid {
-    max-width: 700px;
-    margin: 0 auto;
-    background: rgba(0, 20, 60, 0.6);
-    backdrop-filter: blur(6px);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 0 20px rgba(0, 150, 255, 0.25);
-}
-
-/* Individual steps */
-.business-grid h3 {
-    padding: 14px 18px;
-    margin-bottom: 14px;
-    border-radius: 10px;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 120, 255, 0.35),
-        rgba(0, 60, 160, 0.35)
-    );
-    font-weight: 500;
-    font-size: 18px;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.business-grid h3:hover {
-    transform: translateX(6px);
-    background: linear-gradient(
-        90deg,
-        rgba(0, 150, 255, 0.55),
-        rgba(0, 80, 200, 0.55)
-    );
-}
-
-/* ========================= */
-/* Tablet (≤ 1024px) */
-/* ========================= */
-@media (max-width: 1024px) {
-    .business-content {
-        padding: 30px 40px;
-    }
-
-    .business-content h2 {
-        font-size: 24px;
-    }
-
-    .business-grid {
-        padding: 24px;
-    }
-
-    .business-grid h3 {
-        font-size: 16px;
-    }
-}
-
-/* ========================= */
-/* Mobile (≤ 768px) */
-/* ========================= */
-@media (max-width: 768px) {
-    .business-layout {
-        flex-direction: column;
-    }
-
-    .business-content {
-        padding: 20px;
-    }
-
-    .business-content h2 {
-        font-size: 22px;
-    }
-
-    .business-grid {
-        padding: 20px;
-        border-radius: 12px;
-    }
-
-    .business-grid h3 {
-        font-size: 15px;
-        padding: 12px 14px;
-    }
-}
-
-/* ========================= */
-/* Small Phones (≤ 480px) */
-/* ========================= */
-@media (max-width: 480px) {
-    .business-content h2 {
-        font-size: 20px;
-    }
-
-    .business-grid h3 {
-        font-size: 14px;
-        text-align: center;
-    }
+.step-content p {
+    color: var(--text-secondary);
+    line-height: 1.5;
 }

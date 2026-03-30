@@ -1,36 +1,42 @@
-import React, { useEffect, useState } from "react"; 
+import React from "react"; 
 import BusinessSidebar from "../components/BusinessSidebar"; 
-// import BusinessCard from "../components/BusinessCard"; 
-import VideoBackground from "../components/VideoBackground"; 
-import API from "../services/api"; 
+import AppHeader from "../components/AppHeader";
 import "../styles/Process.css"; 
 
 const Process = () => { 
-    const [ businesses, setBusinesses ] = useState([]); 
-    
-    useEffect(() => { 
-        API.get("business/my") 
-        .then(res => setBusinesses(res.data)) 
-        .catch(err => console.error(err)); 
-    }, []); 
-    
+    const steps = [
+        { title: "Application Submission", desc: "Submit your business details and geospatial coordinates for review." },
+        { title: "Document Verification", desc: "Our analysts verify legal documentation and business category alignment." },
+        { title: "GIS Feasibility Check", desc: "AI algorithms assess the urban impact and environmental feasibility." },
+        { title: "Authority Review", desc: "Final human-in-the-loop review by urban planning authorities." },
+        { title: "Activation", desc: "Upon approval, your business is live on the Urban GIS AI platform." }
+    ];
+
     return ( 
-    <> 
-    <VideoBackground /> 
-    <div className="business-layout"> 
-        <BusinessSidebar /> 
-        <div className="business-content"> 
-            <h2>Approval work process</h2> 
-            <div className="business-grid"> 
-                <h3>Step-1. Application Submitted</h3>
-                <h3>Step-2. Document Verification</h3>
-                <h3>Step-3. GIS Location Check</h3>
-                <h3>Step-4. Authority Review</h3>
-                <h3>Step-5. Approved / Rejected</h3>
+        <div className="business-page-wrapper"> 
+            <AppHeader />
+            <div className="business-layout"> 
+                <BusinessSidebar /> 
+                <div className="business-content"> 
+                    <div className="section-header">
+                        <h2>Approval Pipeline</h2>
+                        <p>Transparency in urban business integration and scaling.</p>
+                    </div>
+
+                    <div className="process-timeline"> 
+                        {steps.map((step, index) => (
+                            <div className="timeline-item" key={index}>
+                                <div className="step-number">{index + 1}</div>
+                                <div className="step-content">
+                                    <h3>{step.title}</h3>
+                                    <p>{step.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div> 
+                </div> 
             </div> 
         </div> 
-    </div> 
-    </> 
     ); 
 }; 
 

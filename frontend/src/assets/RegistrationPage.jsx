@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/RegistrationPage.css";
 import { Link, useNavigate } from "react-router-dom";
-import VideoBackground from "../components/VideoBackground";
+import AppHeader from "../components/AppHeader";
 
 const RegistrationPage = () => {
     const [ username, setName ] = useState("");
@@ -62,39 +62,85 @@ const RegistrationPage = () => {
     };
 
     return (
-        <>
-        <VideoBackground />
-        <div className="main">
-            <h1>Create Account</h1>
-            <h3>Join UrbanGIS AI today</h3>
+        <div className="registration-page">
+            <AppHeader />
+            <div className="registration-container">
+                <div className="registration-card">
+                    <div className="registration-header">
+                        <h1>Create Account</h1>
+                        <p>Join UrbanGIS AI and start planning smarter cities</p>
+                    </div>
 
-            <form onSubmit={handleRegister}>
-            <label htmlFor="username">Username:</label>
-            <input type="text" placeholder="Enter your username" value={username} onChange={(e) => setName(e.target.value)} />
+                    <form onSubmit={handleRegister} className="registration-form">
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <input 
+                                    type="text" 
+                                    id="username"
+                                    placeholder="Choose a username" 
+                                    value={username} 
+                                    onChange={(e) => setName(e.target.value)} 
+                                />
+                            </div>
 
-            <label htmlFor="email">Email ID:</label>
-            <input type="email" placeholder="Enter your email ID" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                            <div className="form-group">
+                                <label htmlFor="email">Email Address</label>
+                                <input 
+                                    type="email" 
+                                    id="email"
+                                    placeholder="email@example.com" 
+                                    value={email} 
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </div>
 
-            <label htmlFor="role">Register as:</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)} placeholder="Select your role">
-                <option value="user">User</option>
-                <option value="business_owner">Business owner</option>
-            </select>
+                            <div className="form-group full-width">
+                                <label htmlFor="role">Register as</label>
+                                <select 
+                                    id="role"
+                                    value={role} 
+                                    onChange={(e) => setRole(e.target.value)}
+                                >
+                                    <option value="user">User / Citizen</option>
+                                    <option value="business_owner">Business Owner</option>
+                                </select>
+                            </div>
 
-            <label htmlFor="create_password">Create Password:</label>
-            <input type="password" placeholder="Create your password" value={createPass} onChange={(e) => setCreatePass(e.target.value)} />
+                            <div className="form-group">
+                                <label htmlFor="create_password">Password</label>
+                                <input 
+                                    type="password" 
+                                    id="create_password"
+                                    placeholder="Create password" 
+                                    value={createPass} 
+                                    onChange={(e) => setCreatePass(e.target.value)} 
+                                />
+                            </div>
 
-            <label htmlFor="confirm_password">Confirm Password:</label>
-            <input type="password" placeholder="Confirm your password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} />
-                
-            <button type="submit" >Register</button>
-            
-            <h5>
-                Already Registered | <Link to={'/login'}>Login here</Link>
-            </h5>
-            </form>
+                            <div className="form-group">
+                                <label htmlFor="confirm_password">Confirm Password</label>
+                                <input 
+                                    type="password" 
+                                    id="confirm_password"
+                                    placeholder="Verify password" 
+                                    value={confirmPass} 
+                                    onChange={(e) => setConfirmPass(e.target.value)} 
+                                />
+                            </div>
+                        </div>
+                            
+                        <button type="submit" className="registration-btn">Create Account</button>
+                        
+                        <div className="registration-footer">
+                            <p>
+                                Already have an account? <Link to="/login">Log in here</Link>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        </>
     );
 }
 

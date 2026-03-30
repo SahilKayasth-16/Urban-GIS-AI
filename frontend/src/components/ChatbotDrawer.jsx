@@ -36,36 +36,45 @@ const ChatBotDrawer = ({ isOpen, onClose, location }) => {
   return (
     <>
       <div className={`chatbot-drawer ${isOpen ? "open" : ""}`}>
-        <div className="chat-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <h4>GIS Assistant</h4>
+        <div className="chatbot-header">
+          <div className="header-title">
+            <i className="fa-solid fa-robot"></i>
+            <h2>GIS Assistant</h2>
+          </div>
+          <div className="header-actions">
             <button
               className="history-btn"
               onClick={isHistoryVisible ? clearChat : fetchChatHistory}
               title={isHistoryVisible ? "Start New Chat" : "Load Chat History"}
             >
-              {isHistoryVisible ? "New Chat" : "🕒 Old Chat"}
+              <i className={isHistoryVisible ? "fa-solid fa-plus" : "fa-solid fa-clock-rotate-left"}></i>
+              <span>{isHistoryVisible ? "New Chat" : "History"}</span>
+            </button>
+            <button className="close-btn" onClick={onClose}>
+              <i className="fa-solid fa-xmark"></i>
             </button>
           </div>
-          <button onClick={onClose}>✖</button>
         </div>
 
-        <div className="chat-body">
+        <div className="chat-messages">
           {messages.map((m, i) => {
             const reportMatch = m.text.match(/__REPORT_LINK__:(\d+)/);
             const cleanText = m.text.replace(/__REPORT_LINK__:\d+/, "");
 
             return (
-              <div key={i} className={`chat-msg ${m.role}`}>
-                {cleanText}
+              <div key={i} className={`chat-bubble ${m.role === "assistant" ? "ai" : "user"}`}>
+                <div className="bubble-content">
+                  {cleanText}
+                </div>
                 {reportMatch && (
                   <div className="report-link-container">
-                    <span
-                      className="view-report-link"
+                    <button
+                      className="view-report-btn"
                       onClick={() => navigate(`/result/${reportMatch[1]}`)}
                     >
-                      View Report ↗
-                    </span>
+                      <span>View Detailed Report</span>
+                      <i className="fa-solid fa-arrow-up-right-from-square"></i>
+                    </button>
                   </div>
                 )}
               </div>
@@ -75,15 +84,19 @@ const ChatBotDrawer = ({ isOpen, onClose, location }) => {
           {isTyping && <TypingIndicator />}
         </div>
 
-        <div className="chat-input">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            disabled={isTyping}
-          />
-          <button onClick={handleSend} disabled={isTyping}>➤</button>
+        <div className="chat-input-area">
+          <div className="input-wrapper">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask me anything about this area..."
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              disabled={isTyping}
+            />
+            <button className="send-btn" onClick={handleSend} disabled={isTyping || !input.trim()}>
+              <i className="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
       </div>
     </>

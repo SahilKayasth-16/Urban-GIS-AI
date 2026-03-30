@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/ChangePassword.css";
-import VideoBackground from "../components/VideoBackground";
+import AppHeader from "../components/AppHeader";
 
 const ChangePassword = () => {
     const [ username, setUsername ] = useState("");
@@ -55,32 +55,71 @@ const ChangePassword = () => {
         }
     };
 
-    return(
-        <>
-        <VideoBackground />
-        <div className="main">
-            <h1>Change Password</h1>
-            <h3>Update your account password.</h3>
+    return (
+        <div className="change-password-page">
+            <AppHeader />
+            <div className="change-password-container">
+                <div className="change-password-card">
+                    <div className="change-password-header">
+                        <h1>Change Password</h1>
+                        <p>Secure your account with a new password</p>
+                    </div>
 
-            <form onSubmit={handleChangePassword}>
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" value={username} placeholder="Enter username" onChange={(e) => setUsername(e.target.value)} />
+                    <form onSubmit={handleChangePassword} className="change-password-form">
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                value={username} 
+                                placeholder="Enter your username" 
+                                onChange={(e) => setUsername(e.target.value)} 
+                            />
+                        </div>
 
-                <label>Old Password:</label>
-                <input type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} placeholder="Enter old password" />
+                        <div className="form-group">
+                            <label>Old Password</label>
+                            <input 
+                                type="password" 
+                                value={oldPassword} 
+                                onChange={(e) => setOldPassword(e.target.value)} 
+                                placeholder="Enter current password" 
+                            />
+                        </div>
 
-                <label htmlFor="new_password">New Password:</label>
-                <input type="password" id="new_password" value={newPassword} placeholder="Enter new password" onChange={(e) => setNewPassword(e.target.value)} />
+                        <div className="form-group">
+                            <label htmlFor="new_password">New Password</label>
+                            <input 
+                                type="password" 
+                                id="new_password" 
+                                value={newPassword} 
+                                placeholder="Create new password" 
+                                onChange={(e) => setNewPassword(e.target.value)} 
+                            />
+                        </div>
 
-                <label htmlFor="confirm_password">Confirm Password:</label>
-                <input type="password" id="confirm_password" value={confirmPassword} placeholder="Enter username" onChange={(e) => setConfirmPassword(e.target.value)} />
+                        <div className="form-group">
+                            <label htmlFor="confirm_password">Confirm New Password</label>
+                            <input 
+                                type="password" 
+                                id="confirm_password" 
+                                value={confirmPassword} 
+                                placeholder="Re-type new password" 
+                                onChange={(e) => setConfirmPassword(e.target.value)} 
+                            />
+                        </div>
 
-                <button type="submit">Change Password</button>
+                        <button type="submit" className="change-password-btn btn-primary">Update Password</button>
 
-                <h5>Back to <Link to={"/login"}>Login</Link></h5>
-            </form>
+                        <div className="change-password-footer">
+                            <p>
+                                Remembered your password? <Link to="/login">Back to Login</Link>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        </>
     );
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Reports.css";
-import VideoBackground from "../components/VideoBackground";
+import AppHeader from "../components/AppHeader";
 
 const Reports = () => {
     const navigate = useNavigate();
@@ -28,12 +28,11 @@ const Reports = () => {
         try {
             const token = localStorage.getItem("token");
 
-            await axios.delete(`http://localhost:8000/analysis/delete/${id}`,{ 
+            await axios.delete(`http://localhost:8000/analysis/delete/${id}`, { 
                 headers: { 
                     Authorization: `Bearer ${token}` 
                 }
-            }
-        );
+            });
             setReports(prev => prev.filter(r => r.id !== id));
         } catch(error) {
             console.error("Delete failed:", error);
@@ -42,46 +41,55 @@ const Reports = () => {
     };
 
     return (
-        <>
-        <VideoBackground />
-        <div className="reports-page">
-            <div className="report-header">
-                <h1>Reports</h1>
-                <h5><p>View and manage urban analysis reports</p></h5>
-                <button onClick={() => navigate("/dashboard")}><i className="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
-            </div>
-
-            {reports.length === 0 ? (
-                <div className="empty-state">
-                    <h3>No reports found</h3>
+        <div className="reports-page-wrapper">
+            <AppHeader />
+            <div className="reports-container">
+                <div className="report-header">
+                    <div>
+                        <h1>Analysis Reports</h1>
+                        <p>Access and manage your generated urban intelligence reports</p>
+                    </div>
                 </div>
-            ) : (
-                <div className="reports-list">
-                    {reports.map((report) => (
-                        <div className="report-card" key={report.id}>
-                            <h3>{report.area_name}</h3>
 
-                            <p>
-                                <strong>Latitude:</strong> {report.latitude} |
-                                <strong> Longitude:</strong> {report.longitude}
-                            </p>
+                {reports.length === 0 ? (
+                    <div className="empty-state">
+                        <i className="fa-solid fa-folder-open"></i>
+                        <h3>No reports found</h3>
+                        <p>Try running a GIS analysis from your dashboard.</p>
+                        <button className="btn btn-primary" onClick={() => navigate("/userdashboard")}>Go to Dashboard</button>
+                    </div>
+                ) : (
+                    <div className="report-grid">
+                        {reports.map((report) => (
+                            <div className="report-card" key={report.id}>
+                                <div className="report-icon">
+                                    <i className="fa-solid fa-file-invoice"></i>
+                                </div>
+                                <h3>{report.area_name}</h3>
 
-                            <p>
-                                <strong>Generated on:</strong>{" "}
-                                {new Date(report.created_at).toLocaleString()}
-                            </p>
+                                <div className="report-info">
+                                    <p>
+                                        <i className="fa-solid fa-location-dot"></i>
+                                        {Number(report.latitude).toFixed(4)}, {Number(report.longitude).toFixed(4)}
+                                    </p>
+                                    <p>
+                                        <i className="fa-solid fa-calendar"></i>
+                                        {new Date(report.created_at).toLocaleDateString()}
+                                    </p>
+                                </div>
 
-                            <div className="report-actions">
-                                <button onClick={() => navigate(`/result/${report.id}`)}>View</button>
-                                <button disabled>Download</button>
-                                <button onClick={() => {if (window.confirm("Delete this report ?")) handleDelete(report.id)}}>Delete</button>
+                                <div className="report-card-actions">
+                                    <button className="btn btn-primary" onClick={() => navigate(`/result/${report.id}`)}>View Report</button>
+                                    <button className="btn btn-delete" onClick={() => {if (window.confirm("Delete this report?")) handleDelete(report.id)}}>
+                                        <i className="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
-        </>
     );
 };
 

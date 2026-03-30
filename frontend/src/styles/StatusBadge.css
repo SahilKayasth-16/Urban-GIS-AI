@@ -1,44 +1,33 @@
-.status {
-    padding: 6px 12px;
-    border-radius: 12px;
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    display: inline-block;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.status.pending {
-    background-color: #facc15;
-    color: #000;
+.status-badge.pending {
+    background: rgba(168, 85, 247, 0.15);
+    color: var(--secondary);
+    border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
-.status.approved {
-    background-color: #22c55e;
-    color: #fff;
+.status-badge.approved {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-.status.rejected {
-    background-color: #ef4444;
-    color: #fff;
-}
-/* =====================
-   STATUS BADGE (RESPONSIVE)
-===================== */
-
-/* 📱 Mobile devices */
-@media (max-width: 576px) {
-    .status {
-        padding: 5px 10px;
-        font-size: 0.65rem;
-        border-radius: 10px;
-    }
+.status-badge.rejected {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* 📱📱 Tablets */
-@media (max-width: 992px) {
-    .status {
-        padding: 6px 11px;
-        font-size: 0.7rem;
-        border-radius: 11px;
-    }
+.status-badge i {
+    font-size: 0.8rem;
 }

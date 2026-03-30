@@ -2,22 +2,20 @@ import React from "react";
 import "../styles/StatusBadge.css";
 
 const StatusBadge = ({ status }) => {
-    const getStatusClass = () => {
-
-    const normalized = status?.toLowerCase()
+    const normalized = status?.toLowerCase() || "pending";
+    
+    const getIcon = () => {
         switch (normalized) {
-            case "approved":
-                return "Approved";
-            case "rejected":
-                return "Rejected";
-            default:
-                return "Pending";
+            case "approved": return <i className="fa-solid fa-circle-check"></i>;
+            case "rejected": return <i className="fa-solid fa-circle-xmark"></i>;
+            default: return <i className="fa-solid fa-clock"></i>;
         }
     };
 
     return (
-        <span className={getStatusClass()}>
-            {status?.toUpperCase() || "Pending"}
+        <span className={`status-badge ${normalized}`}>
+            {getIcon()}
+            {normalized.toUpperCase()}
         </span>
     );
 }

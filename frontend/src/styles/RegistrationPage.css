@@ -1,190 +1,155 @@
-/* =====================
-   GLOBAL RESET
-===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #ffffff;
-}
-
-/* =====================
-   MAIN CONTAINER
-===================== */
-.main {
-    width: 100%;
+.registration-container {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top left, var(--primary-glow), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.1), transparent 40%);
+    background-color: var(--bg-deep);
+    padding: 40px 20px;
 }
 
-/* =====================
-   HEADINGS
-===================== */
-.main h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #00c6ff;
+.registration-card {
+    width: 100%;
+    max-width: 650px;
+    padding: 48px;
+    border-radius: var(--border-radius-xl);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-.main h3 {
-    font-weight: 400;
-    margin-bottom: 30px;
-    opacity: 0.85;
-    color: #0072ff;
-}
-
-/* =====================
-   FORM
-===================== */
-form {
-    width: 420px;
-    padding: 35px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-}
-
-form label {
-    font-size: 0.9rem;
-    margin-bottom: 6px;
-    margin-top: 15px;
-}
-
-form input {
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 0.95rem;
-}
-
-form input::placeholder {
-    color: #999;
-}
-
-/* =====================
-   BUTTON
-===================== */
-form button {
-    margin-top: 25px;
-    padding: 12px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
-    color: #ffffff;
-    transition: all 0.3s ease;
-}
-
-form button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 114, 255, 0.4);
-}
-
-/* =====================
-   FOOTER TEXT
-===================== */
-form h5 {
-    margin-top: 20px;
-    font-weight: 300;
+.registration-header {
     text-align: center;
+    margin-bottom: 40px;
 }
 
-form a {
-    color: #00c6ff;
-    text-decoration: none;
+.registration-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
 }
 
-form a:hover {
-    text-decoration: underline;
-}
-
-/* =====================
-   ROLE SELECT DROPDOWN
-===================== */
-form select {
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
+.registration-header p {
+    color: var(--text-secondary);
     font-size: 0.95rem;
-    background-color: #ffffff;
-    color: #333;
+}
+
+.registration-form .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: left;
+}
+
+.registration-form .form-group {
+    margin-bottom: 24px;
+}
+
+/* Map the existing nth-child(7) logic if needed, but I'll use class-based if I can */
+.registration-form .form-group:nth-child(7) {
+    grid-column: span 2;
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.registration-form input,
+.registration-form select {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    transition: var(--transition-fast);
+}
+
+.registration-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 18px;
+}
+
+.registration-form input:focus,
+.registration-form select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.registration-btn {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 4px 15px var(--primary-glow);
 }
 
-form select option {
-    color: #333;
+.registration-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--primary-glow);
 }
 
-
-@media (max-width: 576px) {
-
-    .main {
-        padding: 20px;
-    }
-
-    .main h1 {
-        font-size: 1.9rem;
-    }
-
-    .main h3 {
-        font-size: 1rem;
-        text-align: center;
-    }
-
-    form {
-        padding: 25px;
-    }
-
-    form input {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-
-    form button {
-        width: 100%;
-        padding: 12px;
-    }
-
-    form h5 {
-        font-size: 0.85rem;
-    }
-
-    form select {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-
+.registration-footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
 }
 
-@media (max-width: 992px) {
+.registration-footer a {
+    color: var(--primary);
+    font-weight: 600;
+}
 
-    form {
-        width: 90%;
+/* Success/Error Message Styling mapped from existing inline style selectors if possible */
+p[style*="color: red"], .error-message {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444 !important;
+    padding: 12px;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+p[style*="color: green"], .success-message {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981 !important;
+    padding: 12px;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+@media (max-width: 640px) {
+    .registration-form .form-grid {
+        grid-template-columns: 1fr;
     }
-
-    .main h1 {
-        font-size: 2.2rem;
+    
+    .registration-form .form-group:nth-child(7) {
+        grid-column: span 1;
     }
-
-    .main h3 {
-        font-size: 1.1rem;
-    }
-
-    form select {
-        font-size: 0.95rem;
-        padding: 11px;
+    
+    .registration-card {
+        padding: 32px 24px;
     }
 }
